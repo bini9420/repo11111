@@ -20,6 +20,9 @@ import board.model.BoardDao;
 @Controller
 public class BoardDeleteController {
 
+	//delete
+	//delete
+	
 	private final String command = "/delete.bd";
 	private final String getPage = "delCheck";
 	private final String gotoPage = "redirect:/list.bd";
