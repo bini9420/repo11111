@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- board.xml -->
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board.Board">
+	<select id="getTotalCount" resultType="int">
+		select count(*) from board 
+		<if test="whatColumn == 'all'">
+			where writer like #{keyword} 
+			or subject like #{keyword} 
+		</if>
+		<if test="whatColumn == 'writer'">
+			where writer like #{keyword} 
+		</if>
+		<if test="whatColumn == 'subject'">
+			where subject like #{keyword} 
+		</if>
+	</select>
+	
+	<select id="getAllLists" resultType="myBoard">
+		select * from board 
+		<if test="whatColumn == 'all'">
+			where writer like #{keyword} 
+			or subject like #{keyword} 
+		</if>
+		<if test="whatColumn == 'writer'">
+			where writer like #{keyword} 
+		</if>
+		<if test="whatColumn == 'subject'">
+			where subject like #{keyword} 
+		</if>
+		order by ref desc, re_step asc
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board values(board_seq.nextval,#{writer},#{email},#{subject},#{passwd},sysdate,0,board_seq.currval,0,0,#{content},#{ip})
+	</insert>
+	
+	<select id="getBoardByNum" resultType="myBoard">
+		select * from board where num=#{num}
+	</select>
+	
+	<update id="updateReadcount">
+		update board set readcount = readcount+1 where num=#{num}	
+	</update>
+	   
+	<delete id="deleteBoard">
+		delete from board where num=#{num}
+	</delete>
+	
+	<update id="updateBoard">
+		update board 
+		set writer=#{writer}, subject=#{subject}, email=#{email}, content=#{content}, passwd=#{passwd} 
+		where num=#{num}
+	</update>
+	
+	<update id="updateReStep">
+		update board 
+		set re_step = re_step+1 
+		where ref=#{ref} and re_step>#{re_step}
+	</update>
+	
+	<insert id="insertReply">
+		insert into board values(board_seq.nextval,#{writer},#{email},#{subject},#{passwd},sysdate,0,${ref},${re_step},${re_level},#{content},#{ip})
+	</insert>
+</mapper>
