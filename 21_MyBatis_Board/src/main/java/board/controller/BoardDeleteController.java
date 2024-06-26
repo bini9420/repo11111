@@ -23,6 +23,9 @@ public class BoardDeleteController {
 	//delete
 	//delete
 	
+	//∆¿¿Â
+	//∆¿¿Â
+	
 	private final String command = "/delete.bd";
 	private final String getPage = "delCheck";
 	private final String gotoPage = "redirect:/list.bd";
